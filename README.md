@@ -18,5 +18,5 @@ TODO -
 * Check the correctness of current bfs implementation
 * Web interface for player selection
 * Fuzzy search player name (fzf?)
-* Bugs - Generated data has some missing values in players.
-  - api tried (https://www.football-data.org) free tier doesnt list squad. Could be used to get other info such as logos
+* Bugs -
+  - Generated data using web scraping has some missing values in players, repeated entries e.g. `'Monaco II', 'Monaco'`.  API tried (https://www.football-data.org) free tier doesnt list squad. Could be used to get other info such as logos
