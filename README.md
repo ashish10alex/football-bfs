@@ -13,4 +13,10 @@ python bfs.py
 `create_player_data.py` - Parses urls to extract information of clubs that a football player has belonged to
 Breadth first search code borrowed from - https://github.com/a8hay/kevin-bacon-bfs
 
+TODO -
 
+* Check the correctness of current bfs implementation
+* Web interface for player selection
+* Fuzzy search player name (fzf?)
+* Bugs - Generated data has some missing values in players.
+  - api tried (https://www.football-data.org) free tier doesnt list squad. Could be used to get other info such as logos
