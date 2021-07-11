@@ -16,7 +16,7 @@ This eventually plans to be a football version of - https://oracleofbacon.org/mo
 
 Run -
 ```
-python bfs.py
+python app.py
 ```
 
 `create_player_data.py` - Parses urls to extract information of clubs that a football player has belonged to
@@ -24,8 +24,11 @@ Breadth first search code borrowed from - https://github.com/a8hay/kevin-bacon-b
 
 TODOs -
 
-* Check the correctness of current bfs implementation
-* Web interface for player selection
-* Fuzzy search player name (fzf?)
-* Bugs -
-  - Generated data using web scraping has some missing values in players, repeated entries e.g. `'Monaco II', 'Monaco'`.  API tried (https://www.football-data.org) free tier doesnt list squad. Could be used to get other info such as logos
+- [x] Web interface 
+- [ ] Check the correctness of current bfs implementation
+- [ ] Use API to display players and club logos - https://www.football-data.org
+
+Bugs -
+- [ ] Generated data using web scraping has some missing values in players, repeated entries e.g. `'Monaco II', 'Monaco'`.  API tried (https://www.football-data.org) free tier doesn't list squad. 
+- [ ] Sometimes doesn't show the correct links 
+
