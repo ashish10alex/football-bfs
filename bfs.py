@@ -80,14 +80,11 @@ def bfs(player_one, player_two):
 				Q.push(neighbour)
 
 	curr = end
-	connection_result = ""
 	connection_result_list = []
 	if curr.parent == None: return "No connections"
 	while curr.parent is not None:
-		connection_result += f"{curr.id} -->"
 		connection_result_list.append(curr.id)
 		curr = curr.parent
-	connection_result += str(start.id)
 	connection_result_list.append(start.id)
-	return connection_result, connection_result_list
+	return connection_result_list
 

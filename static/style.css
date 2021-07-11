@@ -61,3 +61,6 @@ input[type=submit] {
   color: #ffffff; 
 }
 
+.center_results {
+  text-align: center;
+}
