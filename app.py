@@ -8,7 +8,8 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def index():
 	if request.method == "GET":
-		return render_template( "index.html")
+		connection_result_list=[]
+		return render_template( "index.html", connection_result_list=connection_result_list)
 	if request.method == "POST":
 		req = request.form
 		player_one, player_two =  req["PlayerOne"], req["PlayerTwo"]
