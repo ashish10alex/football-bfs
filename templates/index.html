@@ -21,9 +21,14 @@
   <input type="submit">
 </form>
 
-{% if connection_result %}
-<p> {{connection_result}} </p> 
+{% if connection_result_list %}
+{% for item in connection_result_list  %}
+   <p>{{item}}</p>  
+   <p>|</p>  
+   <p>|</p>  
+{% endfor %}
 {% endif %}
+
 <script type="text/javascript" src="{{ url_for('static', filename='autocomplete.js') }}"> </script>
 
 {% endblock %}

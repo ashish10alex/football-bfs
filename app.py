@@ -12,8 +12,8 @@ def index():
 	if request.method == "POST":
 		req = request.form
 		player_one, player_two =  req["PlayerOne"], req["PlayerTwo"]
-		connection_result = bfs(player_one, player_two)
-		return render_template( "index.html", connection_result=connection_result)
+		connection_result, connection_result_list = bfs(player_one, player_two)
+		return render_template( "index.html", connection_result_list=connection_result_list)
 
 
 if __name__ == '__main__':
