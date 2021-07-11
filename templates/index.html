@@ -5,13 +5,26 @@
 
 {% block content %}
 
-<form action="/action_page.php">
-  <label for="name">name:</label>
-  <input type="text" id="name" name="name"><br><br>
-  <input type="submit" value="Submit">
+<h2>Player Connections</h2>
+
+<!--Make sure the form has the autocomplete function switched off:-->
+<form method="POST" autocomplete="off" action="/" >
+  <div class="autocomplete" style="width:300px;">
+    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="Player 1">
+  </div>
+
+<br>
+<br>
+  <div class="autocomplete" style="width:300px;">
+    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="Player 2">
+  </div>
+  <input type="submit">
 </form>
 
-<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"> </script>
+{% if connection_result %}
+<p> {{connection_result}} </p> 
+{% endif %}
+<script type="text/javascript" src="{{ url_for('static', filename='autocomplete.js') }}"> </script>
 
 {% endblock %}
 

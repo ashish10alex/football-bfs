@@ -53,9 +53,9 @@ for idx in range(len(df)):
 	for team in  df.iloc[idx]['teams']:
 		g.addEdge(df.iloc[idx]['player'], team)
 
-def bfs():
-	s = "N'Golo Kanté"
-	e= "Virgil van Dijk"
+def bfs(player_one, player_two):
+	s = player_one
+	e= player_two
 	start = g.getVertex(s)
 	end = g.getVertex(e)
 	if not start:
@@ -80,10 +80,14 @@ def bfs():
 				Q.push(neighbour)
 
 	curr = end
+	final_result = ""
 	while curr.parent is not None:
-		print(f"{curr.id} -->", end='')
+		final_result += f"{curr.id} -->"
+		# print(f"{curr.id} -->", end='')
 		curr = curr.parent
-	print(start.id)
+	final_result += str(start.id)
+	# print(start.id)
+	return final_result
 
-bfs()
+# bfs()
 
