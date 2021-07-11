@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{%block title%} Home {% endblock%}
+
+{% block content %}
+
+<form action="/action_page.php">
+  <label for="name">name:</label>
+  <input type="text" id="name" name="name"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"> </script>
+
+{% endblock %}
+
