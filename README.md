@@ -2,12 +2,15 @@
 
 
 Shows the graph between two players indicating the shortest connection between them 
-E.g connection between Virgil van Dijk and N'Golo Kanté 
+E.g connection between between players
 
-`Virgil van Dijk -->Liverpool -->Mohamed  Salah Ghaly -->Chelsea -->N'Golo Kanté`
+```
+Virgil van Dijk -->Liverpool -->Mohamed  Salah Ghaly -->Chelsea -->N'Golo Kanté
 
-Another example - 
-`Paul Pogba -->Manchester United -->Gerard Piqué Bernabéu -->Barcelona -->Lionel Andrés Messi Cuccittini`
+Paul Pogba -->Manchester United -->Gerard Piqué Bernabéu -->Barcelona -->Lionel Andrés Messi Cuccittini
+
+Lionel Andrés Messi Cuccittini -->Barcelona -->Miralem Pjanić -->Juventus -->Cristiano Ronaldo dos Santos Aveiro
+```
 
 This eventually plans to be a football version of - https://oracleofbacon.org/movielinks.php
 
