@@ -26,7 +26,8 @@ TODOs -
 
 - [x] Web interface 
 - [ ] Check the correctness of current bfs implementation
-- [ ] Use API to display players and club logos - https://www.football-data.org
+- [ ] Use API to display players and club logos dynamically - https://www.football-data.org
+    - [ ] Get logos for at least the major European leagues
 
 Bugs -
 - [ ] Generated data using web scraping has some missing values in players, repeated entries e.g. `'Monaco II', 'Monaco'`.  API tried (https://www.football-data.org) free tier doesn't list squad. 
