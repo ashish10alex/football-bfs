@@ -1,8 +1,10 @@
 import os
-from flask import Flask
-from flask import render_template, request
-from bfs import bfs
+from typing import List, Dict
+
+from flask import Flask, render_template, request
 from fuzzywuzzy import process
+
+from bfs import bfs
 from teams_crest_dict import teams_crest_dict
 
 api_key = os.environ.get('FOOTBALL_API_KEY')
@@ -35,17 +37,17 @@ def get_images():
 	teams_data = requests.get(url, headers=headers)
 	return teams_data
 
-def fuzzy_match(team_name):
+def fuzzy_match(team_name: str) -> str:
 	match = process.extractOne(str(team_name), all_teams)
 	return match
 
-def get_team_names_from_connection_result_list(connection_result_list):
+def get_team_names_from_connection_result_list(connection_result_list: List[str]) -> List[str]:
 	teams = []
 	for idx, item in enumerate(connection_result_list):
 		if idx %2 !=0: teams.append(item)
 	return teams
 
-def get_new_connection_results_list(connection_result_list, crest_url_dict):
+def get_new_connection_results_list(connection_result_list: List[str], crest_url_dict: Dict[str, str]) -> List[str]:
 	new_teams_keys = list(crest_url_dict.keys())[::-1]
 	new_connection_result_list = []
 	for idx, item in enumerate(connection_result_list):
@@ -54,7 +56,7 @@ def get_new_connection_results_list(connection_result_list, crest_url_dict):
 		else: new_connection_result_list.append(item)
 	return new_connection_result_list 
 
-def crest_url_dict_given_team_names(teams):
+def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
 	crest_url_dict = {}
 	for team_name in teams:
 		key = fuzzy_match(team_name)[0]
