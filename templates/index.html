@@ -4,28 +4,47 @@
 {%block title%} Home {% endblock%}
 
 {% block content %}
-
-<h2>Player Connection tree</h2>
-
+<div class="center_results">
+<span style='font-size:50px;'> &#127952; &#127795;</span>
+<h2> Football Players Connection tree</h2>
 <!--Make sure the form has the autocomplete function switched off:-->
 <form method="POST" autocomplete="off" action="/" >
   <div class="autocomplete" style="width:300px;">
-    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="Player 1">
+    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="Harry Kane">
   </div>
 
-<br>
-<br>
   <div class="autocomplete" style="width:300px;">
-    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="Player 2">
+    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="Raheem Sterling">
   </div>
-  <input type="submit">
+  <br></br>
+  <input type="submit" value="Find Connections">
 </form>
+</div>
+
+{% if connection_result %}
+  <p>connection_result</p>
+{% endif %}
+
 
 {% if connection_result_list %}
 {% for item in connection_result_list  %}
+    <div class="center_results">
    <p>{{item}}</p>  
-   <p>|</p>  
-   <p>|</p>  
+   {% if loop.index % 2 == 0%}
+        {% if item == 'Manchester City' %}
+          <img alt="Qries" src="https://crests.football-data.org/65.svg"  height="100" width="100">
+        {% endif %}
+        {% if item == 'Tottenham' %}
+          <img alt="Qries" src="https://crests.football-data.org/73.svg"  height="100" width="100">
+        {% endif %}
+   {% endif %}
+
+   {% if not loop.last %}
+     <p>|</p>  
+     <p>|</p>  
+   {% endif %}
+      
+    </div>
 {% endfor %}
 {% endif %}
 
