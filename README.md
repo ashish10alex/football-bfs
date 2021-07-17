@@ -24,11 +24,9 @@ Breadth first search code borrowed from - https://github.com/a8hay/kevin-bacon-b
 
 TODOs -
 
-- [x] Web interface 
+- [ ] Get pictures of players of all top 5 leagues
 - [ ] Check the correctness of current bfs implementation
-- [ ] Use API to display players and club logos dynamically - https://www.football-data.org
-    - [ ] Get logos for at least the major European leagues
-- [ ] Try another API - https://www.api-football.com/news
+- [x] Try another API - https://www.api-football.com/news
 - [ ] Make bfs file faster
 
 Bugs -

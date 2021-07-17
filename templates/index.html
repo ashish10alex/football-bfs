@@ -26,12 +26,16 @@
 {% endif %}
 
 
+<!-- <img alt="Qries" src="https://media.api-sports.io/football/players/154.png"  height="100" width="100"> -->
+
 {% if connection_result_list %}
 {% for item in connection_result_list  %}
     <div class="center_results">
    <p>{{item}}</p>  
    {% if loop.index % 2 == 0%}
         <img alt="Qries" src={{teams_crest_dict[item]}}  height="100" width="100">
+  {% else %}
+  <!-- <img alt="Qries" src="https://media.api-sports.io/football/players/159.png"  height="100" width="100"> -->
    {% endif %}
 
    {% if not loop.last %}

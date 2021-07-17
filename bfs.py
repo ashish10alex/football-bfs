@@ -75,9 +75,9 @@ def bfs(player_one, player_two):
 
 		for neighbour in current.connectedTo:
 			if not neighbour.discovered:
-				neighbour.discovered = True
-				neighbour.parent = current
-				Q.push(neighbour)
+                            neighbour.discovered = True
+                            neighbour.parent = current
+                            Q.push(neighbour)
 
 	curr = end
 	connection_result_list = []
