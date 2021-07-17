@@ -30,6 +30,7 @@ TODOs -
 - [ ] Make bfs file faster
 
 Bugs -
+- [ ] Sometimes doesn't show the correct links - fixes on adding a breakpoint in `bfs.py` and continuing from the
+    breakpoint
 - [ ] Generated data using web scraping has some missing values in players, repeated entries e.g. `'Monaco II', 'Monaco'`.  API tried (https://www.football-data.org) free tier doesn't list squad. 
-- [ ] Sometimes doesn't show the correct links 
 
