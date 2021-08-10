@@ -22,6 +22,8 @@ python app.py
 `create_player_data.py` - Parses urls to extract information of clubs that a football player has belonged to
 Breadth first search code borrowed from - https://github.com/a8hay/kevin-bacon-bfs
 
+API dashboard - https://dashboard.api-football.com/
+
 TODOs -
 
 - [ ] Get pictures of players of all top 5 leagues
