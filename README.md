@@ -28,10 +28,10 @@ API dashboard - https://dashboard.api-football.com/
 
 TODOs -
 
-- [ ] Get pictures of players of all top 5 leagues
-- [ ] Check the correctness of current bfs implementation
-- [x] Try another API - https://www.api-football.com/news
+- [ ] Get pictures of players from "data/FIFA22_official_data.csv"
+- [ ] Check the correctness of current bfs implementation as the results are randomly off sometimes
 - [ ] Make bfs file faster
+- [x] Try another API - https://www.api-football.com/news (maybe no need for API anymore)
 
 Bugs -
 - [ ] Sometimes doesn't show the correct links - fixes on adding a breakpoint in `bfs.py` and continuing from the
