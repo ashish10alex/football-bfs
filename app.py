@@ -20,6 +20,8 @@ def index():
 	if request.method == "POST":
 		req = request.form
 		player_one, player_two =  req["PlayerOne"], req["PlayerTwo"]
+		print(f'player_one  : {player_one}')
+		print(f'player_two  : {player_two}')
 		connection_result_list = bfs(player_one, player_two)
 		print(f'connection_result_list  : {connection_result_list  }')
 		teams = get_team_names_from_connection_result_list(connection_result_list)
