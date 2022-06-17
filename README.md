@@ -28,6 +28,7 @@ API dashboard - https://dashboard.api-football.com/
 
 TODOs -
 
+- [ ] Make virtualenv for this project
 - [ ] Get pictures of players from "data/FIFA22_official_data.csv"
 - [ ] Check the correctness of current bfs implementation as the results are randomly off sometimes
 - [ ] Make bfs file faster
