@@ -31,7 +31,7 @@ TODOs -
 - [ ] Get pictures of players of all top 5 leagues
 - [ ] Check the correctness of current bfs implementation
 - [x] Try another API - https://www.api-football.com/news
-- [ ] Make bfs file faster
+- [ ] Make BFS file faster
 
 Bugs -
 - [ ] Sometimes doesn't show the correct links - fixes on adding a breakpoint in `bfs.py` and continuing from the

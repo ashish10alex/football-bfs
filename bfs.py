@@ -1,9 +1,9 @@
-import json
-from queue import Queue
+from _queue import Queue
 import pandas as pd
 import pdbr
 
-df = pd.read_pickle('data/data_small.pkl') 
+# df = pd.read_pickle('data/data_small.pkl') 
+df = pd.read_csv('data/data_small.csv') 
 
 class Vertex:
 	def __init__(self, key):
