@@ -6,16 +6,16 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 import pdbr
 
-df = pd.read_csv("data/players_20.csv")
+df = pd.read_csv("data/FIFA22_official_data.csv")
+print(len(df))
 
-player_urls = list(df["player_url"])
+player_ids = list(df["ID"])
 
-player_urls_new = []
-
-for url in player_urls:
-    new_url = "/".join(url.split("/")[:-2]) + "/live"
-    player_urls_new.append(new_url)
-df["player_urls_new"] = player_urls_new
+player_urls = []
+for player_id in player_ids:
+    player_url = f"https://sofifa.com/player/{player_id}/live"
+    player_urls.append(player_url)
+df["player_urls"] = player_urls
 
 
 def get_teams_player_played_for(player_url, idx):
@@ -30,30 +30,34 @@ def get_teams_player_played_for(player_url, idx):
             team_name = team.text
             teams.append(team_name)
     teams = set(teams)
-    return df["long_name"][idx], list(teams)
+    return df["Name"][idx], df["ID"][idx], list(teams)
 
 # parallel computation using threads
 with concurrent.futures.ThreadPoolExecutor() as executor:
     results = []
-    for idx, url in tqdm(enumerate(player_urls_new[:])):
+    for idx, url in tqdm(enumerate(player_urls[:])):
         results.append(executor.submit(get_teams_player_played_for, url, idx))
     final_results = []
     for f in concurrent.futures.as_completed(results):
         final_results.append(f.result())
 
-df_small = pd.DataFrame(columns=["player", "teams"])
+df_player_teams = pd.DataFrame(columns=["player", "teams"])
 
+player_ids = []
 player_names = []
 player_teams = []
 for data in final_results:
-    player_name, teams = data
+    player_name, player_id, teams = data
+    player_ids.append(player_id)
     player_names.append(player_name)
     player_teams.append(teams)
 
-df_small["player"] = player_names
-df_small["teams"] = player_teams
-df_small.to_pickle("data/data_small.pkl")
-df_small.to_csv("data/data_small.csv")
+df_player_teams["player_id"] = player_ids
+df_player_teams["player_name"] = player_names
+df_player_teams["teams"] = player_teams
+
+df_player_teams.to_pickle("data/player_teams_played_for_mmapping.pkl")
+df_player_teams.to_csv("data/player_teams_played_for_mmapping.csv", index=False)
 
 # idx = 11
 # df_small.iloc[idx]['player'], df_small.iloc[idx]['teams']
