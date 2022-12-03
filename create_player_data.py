@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import pdbr
 
 df = pd.read_csv("data/players_20.csv")
 
@@ -20,29 +21,21 @@ df["player_urls_new"] = player_urls_new
 def get_teams_player_played_for(player_url, idx):
     page_html = requests.get(player_url).content
     page_html_soup = BeautifulSoup(page_html, "html.parser")
-    teams_table = page_html_soup.find_all(class_="team")
-    teams = set()
-    for item in teams_table[2:]:
-        teams.add(item.text)
+    teams_table = page_html_soup.find_all(class_="text-ellipsis")
+
+    # for all items in teams_table that has class team, get the td element
+    teams = []
+    for team in teams_table:
+        if team.find(class_="team"):
+            team_name = team.text
+            teams.append(team_name)
+    teams = set(teams)
     return df["long_name"][idx], list(teams)
-
-
-# test get_teams_player_played_for function
-# idx = 11
-# result= get_teams_player_played_for(df['player_urls_new'][idx], idx)
-# result
-
-# sequential
-# player_teams_played_for = []
-# for idx, url in tqdm(enumerate(player_urls_new[:30])):
-#     teams = get_teams_player_played_for(url, idx)
-#     player_teams_played_for.append(teams)
-# df['player_teams_played_for'] =  player_teams_played_for
 
 # parallel computation using threads
 with concurrent.futures.ThreadPoolExecutor() as executor:
     results = []
-    for idx, url in tqdm(enumerate(player_urls_new[:800])):
+    for idx, url in tqdm(enumerate(player_urls_new[:])):
         results.append(executor.submit(get_teams_player_played_for, url, idx))
     final_results = []
     for f in concurrent.futures.as_completed(results):
