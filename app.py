@@ -113,4 +113,4 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5050)
