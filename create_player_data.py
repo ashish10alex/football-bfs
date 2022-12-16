@@ -9,6 +9,14 @@ import pdbr
 df = pd.read_csv("data/FIFA22_official_data.csv")
 print(len(df))
 
+#extract position from dataframe
+df['Position'] = df['Position'].str.split('>', 1).str[-1]
+
+#filter for messi and goalkeepers only
+df = df[(df['Position']=='GK') | (df['ID'] == 158023)] 
+df.reset_index(inplace=True)
+
+
 player_ids = list(df["ID"])
 
 player_urls = []
@@ -30,7 +38,9 @@ def get_teams_player_played_for(player_url, idx):
             team_name = team.text
             teams.append(team_name)
     teams = set(teams)
-    return df["Name"][idx], df["ID"][idx], list(teams)
+    return df["Name"][idx], df["ID"][idx], df["Photo"][idx], list(teams)
+
+# get_teams_player_played_for(player_urls[0], 0)
 
 # parallel computation using threads
 with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -45,16 +55,19 @@ df_player_teams = pd.DataFrame(columns=["player", "teams"])
 
 player_ids = []
 player_names = []
+player_pics = []
 player_teams = []
 for data in final_results:
-    player_name, player_id, teams = data
+    player_name, player_id, player_pic, teams = data
     player_ids.append(player_id)
     player_names.append(player_name)
+    player_pics.append(player_pic)
     player_teams.append(teams)
 
 df_player_teams["player_id"] = player_ids
 df_player_teams["player_name"] = player_names
 df_player_teams["teams"] = player_teams
+df_player_teams["player_pics"] = player_pics
 
 df_player_teams.to_pickle("data/player_teams_played_for_mmapping.pkl")
 df_player_teams.to_csv("data/player_teams_played_for_mmapping.csv", index=False)
