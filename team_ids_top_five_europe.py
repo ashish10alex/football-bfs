@@ -1,4 +1,4 @@
-team_ids_top_five_europe.py = {
+team_ids_top_five_europe = {
     "Manchester United": 33,
     "Newcastle": 34,
     "Fulham": 36,
