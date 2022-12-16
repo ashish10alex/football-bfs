@@ -1,4 +1,5 @@
 from _queue import Queue
+from ast import literal_eval
 import pandas as pd
 import pdbr
 
@@ -50,8 +51,9 @@ class Graph:
 g = Graph()
 
 for idx in range(len(df)):
-	for team in  df.iloc[idx]['teams']:
-		g.addEdge(df.iloc[idx]['player_name'], team)
+    for team in  literal_eval(df.iloc[idx]['teams']):
+        g.addEdge(df.iloc[idx]['player_name'], team)
+
 
 def bfs(player_one, player_two):
     s = player_one
