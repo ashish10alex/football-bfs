@@ -71,8 +71,15 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
     for player in players:
         player_pic_url = df[df['player_name'] == player]['player_pics'].values[0]
         player_id = df[df['player_name'] == player]['player_id'].values[0]
-        image_path = download_and_save_player_image(player_pic_url, player_id)
-        player_image_paths[player] = image_path
+
+        # check if img_path already exists
+        img_path = 'static/player_images/' + str(player_id) + '.png'
+        if os.path.exists(img_path):
+            player_image_paths[player] = img_path
+        else:
+            image_path = download_and_save_player_image(player_pic_url, player_id)
+            player_image_paths[player] = image_path
+
     return player_image_paths
 
 
