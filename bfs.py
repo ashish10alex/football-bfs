@@ -55,17 +55,17 @@ for idx in range(len(df)):
         g.addEdge(df.iloc[idx]['player_name'], team)
 
 
-def bfs(player_one, player_two):
+def bfs(player_one:str, player_two:str) -> list:
     s = player_one
     e= player_two
     start = g.getVertex(s)
     end = g.getVertex(e)
     if not start:
         print(f"{s} not in graph")
-        return
+        return []
     if not end:
         print(f"{e} not in graph")
-        return
+        return []
     Q = Queue()
     start.discovered = True
     Q.push(start)
@@ -83,7 +83,7 @@ def bfs(player_one, player_two):
 
     curr = end
     connection_result_list = []
-    if curr.parent == None: return "No connections"
+    if curr.parent == None: return []
     while curr.parent is not None:
         connection_result_list.append(curr.id)
         curr = curr.parent
