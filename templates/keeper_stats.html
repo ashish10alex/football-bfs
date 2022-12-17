@@ -1,0 +1,60 @@
+
+{% extends "base.html" %}
+
+
+{%block title%} Home {% endblock%}
+
+{% block content %}
+<div class="center_results">
+<span style='font-size:50px;'> &#127952; &#127795;</span>
+<h2> Messi goals vs Keepers </h2>
+<!--Make sure the form has the autocomplete function switched off:-->
+<form method="POST" autocomplete="off" action="/stats" >
+  <div class="autocomplete" style="width:300px;">
+    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="L. Messi" readonly>
+  </div>
+
+  <div class="autocomplete" style="width:300px;">
+    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="H. Lloris">
+  </div>
+  <br></br>
+  <input type="submit" value="Get stats">
+</form>
+</div>
+
+
+{% if player_image_paths %}
+<div class="makeitseo">
+{% for player, image_paths in player_image_paths.items()  %}
+   <div class="cell">
+       <img src="{{image_paths}}" alt="Player Image" width="100" height="100">
+       <p> {{player}} </p>
+   </div>
+
+    <div class="cell">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Competition</th>
+                <th>Goals</th>
+            </tr>
+        </thead>
+        <tbody>
+               {% for competion in competitions %}
+                      <tr>
+                          <td>  {{competion}} </td>
+                          <td>  {{goals[loop.index - 1]}} </td>
+                      </tr>
+               {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
+{% endfor %}
+</div>
+
+
+{% endif %}
+<script type="text/javascript" src="{{ url_for('static', filename='autocomplete.js') }}"> </script>
+{% endblock %}
+

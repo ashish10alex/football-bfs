@@ -81,10 +81,11 @@ def kepper_stats_vs_reference_player():
 
         keeper_stats_vs_player =  get_keeper_stats_vs_player([goal_keeper], reference_player)
 
-        competitions = keeper_stats_vs_player[goal_keeper]['Comp'].to_list()
-        goals = keeper_stats_vs_player[goal_keeper]['goals'].to_list()
-
-
+        if len(keeper_stats_vs_player) != 0:
+            competitions = keeper_stats_vs_player[goal_keeper]['Comp'].to_list()
+            goals = keeper_stats_vs_player[goal_keeper]['goals'].to_list()
+        else:
+            competitions, goals = [], []
 
         return render_template(
             "keeper_stats.html",
