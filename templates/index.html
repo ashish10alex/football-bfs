@@ -14,7 +14,7 @@
   </div>
 
   <div class="autocomplete" style="width:300px;">
-    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="De Gea">
+    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="H. Lloris">
   </div>
   <br></br>
   <input type="submit" value="Find Connections">
@@ -35,7 +35,7 @@
 
          <!-- Last player is Messi -->
        {% if not loop.last %}
-           <p>Goals conceded vs Messi: {{goals_against_messi[item]}}</p>  
+       <p>Goals conceded vs Messi: {{goals_against_messi[item]}} <br> Champions League:  </p>  
        {% endif %}
 
    {% endif %}

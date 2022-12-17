@@ -60,6 +60,53 @@ def index():
         )
 
 
+@app.route("/stats", methods=["GET", "POST"])
+def kepper_stats_vs_reference_player():
+
+    if request.method == "GET":
+        return render_template("keeper_stats.html")
+
+    if request.method == "POST":
+        req = request.form
+        _, goal_keeper = req["PlayerOne"], req["PlayerTwo"]
+        reference_player = 'L. Messi' #hardcode Messi
+
+
+        player_image_paths = get_image_paths_from_player_names([goal_keeper])
+        print(f"image_paths_players: {player_image_paths}")
+
+        # TODO: get team crest for goal keeper
+        # crest_url_dict = crest_url_dict_given_team_names(player_teams)
+        # print(f"crest_url_dict : {crest_url_dict }")
+
+        keeper_stats_vs_player =  get_keeper_stats_vs_player([goal_keeper], reference_player)
+
+        competitions = keeper_stats_vs_player[goal_keeper]['Comp'].to_list()
+        goals = keeper_stats_vs_player[goal_keeper]['goals'].to_list()
+
+
+
+        return render_template(
+            "keeper_stats.html",
+            player_image_paths = player_image_paths,
+            keeper_stats_vs_player = keeper_stats_vs_player,
+            competitions = competitions,
+            goals = goals,
+        )
+
+def get_keeper_stats_vs_player(keepers: List[str], reference_player: str) -> dict:
+    df = pd.read_csv("data/messi_goals.csv")
+    goals_stats_keeper_by_reference_player = {}
+    for keeper in keepers:
+        fuzzy_matched_player, matching_confidence = fuzzy_match_player(keeper)
+        if matching_confidence > 75:
+            goals_by_competition = db.query(f"select Comp, count(*) as goals from df where Goalkeeper = '{fuzzy_matched_player}' group by Comp ").to_df()
+            goals_by_competition.reset_index(drop=True, inplace=True)
+            print(f'goals_by_competition {goals_by_competition}')
+            goals_stats_keeper_by_reference_player[keeper] = goals_by_competition
+    return goals_stats_keeper_by_reference_player
+
+
 def download_and_save_player_image(image_url:str, player_id:int, img_path='static/player_images/') -> str:
     img_data = requests.get(image_url).content
     img_path = img_path + str(player_id) + '.png'
@@ -87,10 +134,10 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
     return player_image_paths
 
 
-def fuzzy_match(item: str) -> tuple:
+def fuzzy_match_player(player: str) -> tuple:
     df = pd.read_csv("data/messi_goals.csv")
-    items = df['Goalkeeper'].values
-    match = process.extractOne(str(item), items)
+    players = df['Goalkeeper'].values
+    match = process.extractOne(str(player), players)
     return match
 
 def fuzzy_match_team(team: str) -> tuple:
@@ -163,7 +210,7 @@ def compute_goals_against_messi(players: list) -> dict:
     for player in players:
         if player != 'L. Messi':
 
-            fuzzy_matched_player, matching_confidence = fuzzy_match(player)
+            fuzzy_matched_player, matching_confidence = fuzzy_match_player(player)
 
             if matching_confidence > 75:
                 print(f"player: {fuzzy_matched_player} matched with {matching_confidence} confidence")

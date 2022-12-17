@@ -80,11 +80,36 @@ img{
 
 .cell {
     margin: 10px 10px 10px 10px;
-    height: 200px;
-    width: 200px;
+    height: 800px;
+    width: auto;
     padding: 2px;
     display: flex;
     align-items: center;
     overflow: auto;
     flex-direction: column;
 }
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 2px 5px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
