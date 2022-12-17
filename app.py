@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from typing import List, Dict
 
 from flask import Flask, render_template, request
@@ -56,14 +57,13 @@ def get_player_id(player_name: str) -> int:
     return player_names_to_id_mapping[player_name]
 
 
-def get_image_paths_from_player_names(players: List[str]) -> List[str]:
-    base_img_path = "static/images/PlayerPhoto/"
-    player_image_paths = {}
+def get_image_paths_from_player_names(players: List[str]) -> dict:
+    df = pd.read_csv("data/player_teams_played_for_mmapping.csv")
+    player_image_urls = {}
     for player in players:
-        player_id = get_player_id(player)
-        player_image_path = base_img_path + str(player_id) + ".png"
-        player_image_paths[player] = player_image_path
-    return player_image_paths
+        player_pic_url = df[df['player_name'] == player]['player_pics'].values[0]
+        player_image_urls[player] = player_pic_url
+    return player_image_urls
 
 
 def fuzzy_match(team_name: str) -> str:
