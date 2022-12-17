@@ -27,22 +27,31 @@
 
 
 {% if connection_result_list %}
+<div class="makeitseo">
 {% for item in connection_result_list  %}
-    <div class="center_results">
+    <!-- <div class="center_results"> -->
+   <div class="cell">
    <p>{{item}}</p>  
    {% if loop.index % 2 == 0%}
-        <img alt="Team crest" src={{teams_crest_dict[item]}}  height="60" width="60">
+        <img alt="Team crest" src={{teams_crest_dict[item]}}  >
   {% else %}
-        <img alt="Player photo" src={{player_image_paths[item]}} height="60" width="60" >
+        <img alt="Player photo" src={{player_image_paths[item]}}  >
    {% endif %}
 
+
    {% if not loop.last %}
-     <p>|</p>  
-     <p>|</p>  
    {% endif %}
+   </div>
+
+   {% if not loop.last %}
+       <div class="cell">
+           <p> &#8594; </p>
+       </div>
+   {% endif %}
+
       
-    </div>
 {% endfor %}
+</div>
 {% endif %}
 
 <script type="text/javascript" src="{{ url_for('static', filename='autocomplete.js') }}"> </script>
