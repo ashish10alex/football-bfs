@@ -1,6 +1,7 @@
 import os
 import requests
 import pandas as pd
+import duckdb as db
 from typing import List, Dict
 
 from flask import Flask, render_template, request
@@ -36,6 +37,9 @@ def index():
         players = get_player_names_from_connection_result_list(connection_result_list)
         print(f"teams: {teams}")
         print(f"players: {players}")
+
+        goals_against_messi = compute_goals_against_messi(players)
+        breakpoint()
 
         player_image_paths = get_image_paths_from_player_names(players)
         print(f"image_paths_players: {player_image_paths}")
@@ -90,8 +94,10 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
     return player_image_paths
 
 
-def fuzzy_match(team_name: str):
-    match = process.extractOne(str(team_name), all_teams)
+def fuzzy_match(item: str) -> tuple:
+    df = pd.read_csv("data/messi_goals.csv")
+    items = df['Goalkeeper'].values
+    match = process.extractOne(str(item), items)
     return match
 
 
@@ -133,6 +139,27 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
             crest_url = df[df['Nationality'] == team ].Flag.iloc[0]
             crest_url_dict[team] = download_and_save_player_national_team_flag(crest_url, team)
     return crest_url_dict
+
+def compute_goals_against_messi(players: list) -> dict:
+    df = pd.read_csv("data/messi_goals.csv")
+
+    goals_against_messi = {}
+    for player in players:
+        if player != 'L. Messi':
+
+            fuzzy_matched_player, matching_confidence = fuzzy_match(player)
+
+            if matching_confidence > 75:
+                print(f"player: {fuzzy_matched_player} matched with {matching_confidence} confidence")
+                goals = db.query(f"select count(*) as goals from df where Goalkeeper = '{fuzzy_matched_player}' ").to_df().values[0][0]
+                goals_against_messi[player] = goals
+            else:
+                "Approximate player match not found"
+                goals_against_messi[player] = 0
+
+    return goals_against_messi
+
+
 
 
 if __name__ == "__main__":
