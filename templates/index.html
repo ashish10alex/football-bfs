@@ -33,7 +33,7 @@
    {% if loop.index % 2 == 0%}
         <img alt="Players photo" src={{teams_crest_dict[item]}}  height="100" width="100">
   {% else %}
-        <img alt="Players photo" src={{image_paths_players[item]}} height="60" width="60" >
+        <img alt="Players photo" src={{player_image_paths[item]}} height="60" width="60" >
    {% endif %}
 
    {% if not loop.last %}

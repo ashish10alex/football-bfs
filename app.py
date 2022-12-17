@@ -1,4 +1,5 @@
 import os
+import requests
 import pandas as pd
 from typing import List, Dict
 
@@ -30,8 +31,8 @@ def index():
         players = get_player_names_from_connection_result_list(connection_result_list)
         print(f"teams: {teams}")
         print(f"players: {players}")
-        image_paths_players = get_image_paths_from_player_names(players)
-        print(f"image_paths_players: {image_paths_players}")
+        player_image_paths = get_image_paths_from_player_names(players)
+        print(f"image_paths_players: {player_image_paths}")
         crest_url_dict = crest_url_dict_given_team_names(teams)
         print(f"crest_url_dict : {crest_url_dict }")
         new_connection_resuls_list = get_new_connection_results_list(
@@ -42,7 +43,7 @@ def index():
             "index.html",
             connection_result_list=new_connection_resuls_list,
             teams_crest_dict=teams_crest_dict,
-            image_paths_players=image_paths_players,
+            player_image_paths=player_image_paths,
         )
 
 
@@ -56,14 +57,23 @@ def get_images():
 def get_player_id(player_name: str) -> int:
     return player_names_to_id_mapping[player_name]
 
+def download_and_save_player_image(image_url:str, player_id:int, img_path='static/player_images/') -> str:
+    img_data = requests.get(image_url).content
+    img_path = img_path + str(player_id) + '.png'
+    with open(img_path, 'wb') as handler:
+        handler.write(img_data)
+    return img_path
+
 
 def get_image_paths_from_player_names(players: List[str]) -> dict:
     df = pd.read_csv("data/player_teams_played_for_mmapping.csv")
-    player_image_urls = {}
+    player_image_paths = {}
     for player in players:
         player_pic_url = df[df['player_name'] == player]['player_pics'].values[0]
-        player_image_urls[player] = player_pic_url
-    return player_image_urls
+        player_id = df[df['player_name'] == player]['player_id'].values[0]
+        image_path = download_and_save_player_image(player_pic_url, player_id)
+        player_image_paths[player] = image_path
+    return player_image_paths
 
 
 def fuzzy_match(team_name: str) -> str:
