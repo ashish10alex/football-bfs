@@ -10,11 +10,11 @@
 <!--Make sure the form has the autocomplete function switched off:-->
 <form method="POST" autocomplete="off" action="/" >
   <div class="autocomplete" style="width:300px;">
-    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="Messi" readonly>
+    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="L. Messi" readonly>
   </div>
 
   <div class="autocomplete" style="width:300px;">
-    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="Raheem Sterling">
+    <input id="PlayerTwo" type="text" name="PlayerTwo" placeholder="David Raya">
   </div>
   <br></br>
   <input type="submit" value="Find Connections">
@@ -31,9 +31,9 @@
     <div class="center_results">
    <p>{{item}}</p>  
    {% if loop.index % 2 == 0%}
-        <img alt="Players photo" src={{teams_crest_dict[item]}}  height="100" width="100">
+        <img alt="Team crest" src={{teams_crest_dict[item]}}  height="60" width="60">
   {% else %}
-        <img alt="Players photo" src={{player_image_paths[item]}} height="60" width="60" >
+        <img alt="Player photo" src={{player_image_paths[item]}} height="60" width="60" >
    {% endif %}
 
    {% if not loop.last %}
