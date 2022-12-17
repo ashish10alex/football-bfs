@@ -21,10 +21,6 @@
 </form>
 </div>
 
-{% if connection_result %}
-  <p>connection_result</p>
-{% endif %}
-
 
 {% if connection_result_list %}
 <div class="makeitseo">
@@ -36,6 +32,12 @@
         <img alt="Team crest" src={{teams_crest_dict[item]}}  >
   {% else %}
         <img alt="Player photo" src={{player_image_paths[item]}}  >
+
+         <!-- Last player is Messi -->
+       {% if not loop.last %}
+           <p>Goals conceded vs Messi: {{goals_against_messi[item]}}</p>  
+       {% endif %}
+
    {% endif %}
 
 

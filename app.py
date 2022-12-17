@@ -39,7 +39,6 @@ def index():
         print(f"players: {players}")
 
         goals_against_messi = compute_goals_against_messi(players)
-        breakpoint()
 
         player_image_paths = get_image_paths_from_player_names(players)
         print(f"image_paths_players: {player_image_paths}")
@@ -57,6 +56,7 @@ def index():
             connection_result_list=new_connection_resuls_list,
             teams_crest_dict=crest_url_dict,
             player_image_paths=player_image_paths,
+            goals_against_messi = goals_against_messi,
         )
 
 
@@ -67,13 +67,6 @@ def download_and_save_player_image(image_url:str, player_id:int, img_path='stati
         handler.write(img_data)
     return img_path
 
-def download_and_save_player_national_team_flag(image_url:str, player_team:str, img_path='static/player_images/') -> str:
-    img_data = requests.get(image_url).content
-    player_team = player_team.replace(' ', '_')
-    img_path = img_path + str(player_team) + '.png'
-    with open(img_path, 'wb') as handler:
-        handler.write(img_data)
-    return img_path
 
 
 def get_image_paths_from_player_names(players: List[str]) -> dict:
@@ -98,6 +91,12 @@ def fuzzy_match(item: str) -> tuple:
     df = pd.read_csv("data/messi_goals.csv")
     items = df['Goalkeeper'].values
     match = process.extractOne(str(item), items)
+    return match
+
+def fuzzy_match_team(team: str) -> tuple:
+    df = pd.read_csv("data/FIFA22_official_data.csv")
+    teams = df['Club'].values
+    match = process.extractOne(str(team), teams)
     return match
 
 
@@ -127,17 +126,34 @@ def get_new_connection_results_list( connection_result_list: List[str], crest_ur
             new_connection_result_list.append(item)
     return new_connection_result_list
 
+def download_and_save_player_national_team_flag(image_url:str, player_team:str, img_path='static/player_images/') -> str:
+    img_data = requests.get(image_url).content
+    player_team = player_team.replace(' ', '_')
+    img_path = img_path + str(player_team) + '.png'
+    with open(img_path, 'wb') as handler:
+        handler.write(img_data)
+    return img_path
+
+def check_if_team_is_club_or_national_team_and_return_crest(team: str, df:pd.DataFrame) -> str:
+    df = df.copy()
+    if team in df["Club"].values:
+        crest_url = df[df["Club"] == team]["Club Logo"].values[0]
+        return download_and_save_player_national_team_flag(crest_url, team)
+    elif team in df["Nationality"].values:
+        crest_url = df[df['Nationality'] == team ].Flag.iloc[0]
+        return download_and_save_player_national_team_flag(crest_url, team)
+
 
 def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     df = pd.read_csv("data/FIFA22_official_data.csv")
     crest_url_dict = {}
     for team in teams:
-        if team in df["Club"].values:
-            crest_url = df[df["Club"] == team]["Club Logo"].values[0]
-            crest_url_dict[team] = download_and_save_player_national_team_flag(crest_url, team)
+        if team in df["Club"].values or team in df["Nationality"].values:
+            crest_url_dict[team] = check_if_team_is_club_or_national_team_and_return_crest(team, df)
         else:
-            crest_url = df[df['Nationality'] == team ].Flag.iloc[0]
-            crest_url_dict[team] = download_and_save_player_national_team_flag(crest_url, team)
+            fuzzy_matched_team, matching_confidence = fuzzy_match_team(team)
+            print(f"team: {fuzzy_matched_team} matched with {matching_confidence} confidence")
+            crest_url_dict[team] = check_if_team_is_club_or_national_team_and_return_crest(fuzzy_matched_team, df)
     return crest_url_dict
 
 def compute_goals_against_messi(players: list) -> dict:
