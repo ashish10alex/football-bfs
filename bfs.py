@@ -4,7 +4,7 @@ import pandas as pd
 import pdbr
 
 # df = pd.read_pickle('data/data_small.pkl') 
-df = pd.read_csv('data/player_teams_played_for_mmapping.csv') 
+df = pd.read_csv('data/player_teams_played_for_mapping.csv') 
 
 class Vertex:
 	def __init__(self, key):

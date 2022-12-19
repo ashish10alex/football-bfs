@@ -118,7 +118,7 @@ def download_and_save_player_image(image_url:str, player_id:int, img_path='stati
 
 
 def get_image_paths_from_player_names(players: List[str]) -> dict:
-    df = pd.read_csv("data/player_teams_played_for_mmapping.csv")
+    df = pd.read_csv("data/player_teams_played_for_mapping.csv")
     player_image_paths = {}
     for player in players:
         player_pic_url = df[df['player_name'] == player]['player_pics'].values[0]
