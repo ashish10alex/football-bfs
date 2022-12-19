@@ -25,9 +25,9 @@ def index():
 
     if request.method == "POST":
         req = request.form
-        player_one, player_two = req["PlayerOne"], req["PlayerTwo"]
-        player_one = 'L. Messi' #hardcode Messi
-        connection_result_list = bfs(player_one, player_two)
+        reference_player, player_two = req["PlayerOne"], req["PlayerTwo"]
+        reference_player = 'L. Messi' #hardcode Messi
+        connection_result_list = bfs(reference_player, player_two)
         connection_result_list = [item.strip(' ') for item in connection_result_list]
         print(f"connection_result_list  : {connection_result_list}")
 
@@ -37,7 +37,14 @@ def index():
         print(f"teams: {teams}")
         print(f"players: {players}")
 
-        goals_against_messi = compute_goals_against_messi(players)
+        # goals_against_messi = compute_goals_against_messi(players)
+        keeper_stats_vs_player =  get_keeper_stats_vs_player(players[:-1], reference_player)
+        print(f"keeper_stats_vs_player: {keeper_stats_vs_player}")
+
+        final_keeper_dict = {}
+        for player in keeper_stats_vs_player:
+           final_keeper_dict[player] = keeper_stats_vs_player[player].to_dict('list')
+        print(f"final_keeper_dict: {final_keeper_dict}")
 
         player_image_paths = get_image_paths_from_player_names(players)
         print(f"image_paths_players: {player_image_paths}")
@@ -55,7 +62,7 @@ def index():
             connection_result_list=new_connection_resuls_list,
             teams_crest_dict=crest_url_dict,
             player_image_paths=player_image_paths,
-            goals_against_messi = goals_against_messi,
+            final_keeper_dict=final_keeper_dict,
         )
 
 

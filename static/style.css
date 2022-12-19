@@ -108,6 +108,7 @@ img{
 .styled-table th,
 .styled-table td {
     padding: 2px 5px;
+    text-align:center;
 }
 
 .styled-table tbody tr {

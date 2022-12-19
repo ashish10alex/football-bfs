@@ -40,7 +40,24 @@
 
          <!-- Last player is Messi -->
        {% if not loop.last %}
-       <p>Goals conceded vs Messi: {{goals_against_messi[item]}} </p>  
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Competition</th>
+                        <th>Goals</th>
+                        <th>Team</th>
+                    </tr>
+                </thead>
+                <tbody>
+                       {% for competition in final_keeper_dict[item]['Comp'] %}
+                              <tr>
+                                  <td>  {{competition}} </td>
+                                  <td>     {{final_keeper_dict[item]['goals'][loop.index - 1]}} </td>
+                                  <td>     {{final_keeper_dict[item]['Opponent'][loop.index - 1]}} </td>
+                              </tr>
+                       {% endfor %}
+                </tbody>
+                </table>
        {% endif %}
 
    {% endif %}
