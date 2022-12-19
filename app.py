@@ -8,11 +8,6 @@ from flask import Flask, render_template, request
 from fuzzywuzzy import process
 
 from bfs import bfs
-from teams_crest_dict import teams_crest_dict
-
-api_key = os.environ.get("FOOTBALL_API_KEY")
-
-all_teams = list(teams_crest_dict.keys())
 
 app = Flask(__name__)
 messi_goals_csv = "data/messi_goals.csv"
@@ -215,4 +210,4 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     return crest_url_dict
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run()
