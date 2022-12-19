@@ -8,7 +8,7 @@ Shows the shortest connection between Messi and a Goalkeeper
 <img width="700" alt="football_bfs_tree" src="https://user-images.githubusercontent.com/34306898/208472128-bc3f5936-6a86-485f-aacc-8937f16a9496.png">
 
 
-This eventually plans to be a football version of - https://oracleofbacon.org/movielinks.php
+This project is my attempt at a football version of - [Oracle of bacon](https://oracleofbacon.org/movielinks.php) 
 
 
 
@@ -51,4 +51,13 @@ TODOs -
 
 
 Known bugs -
+- Might require multiple refreshes to show connections for some players. 
+- Need to update dataset to have more correct info on what clubs / national teams a player played for
+
+### Dataset credits w/t links
+
+1. [Messi goals](https://fbref.com/en/players/d70ce98e/goallogs/all_comps/Lionel-Messi-Goal-Log#goallogs_goals)
+2. [Which player played for what club / national team](https://sofifa.com/)
+2. [Player photo and national team crests](https://www.kaggle.com/datasets/stefanoleone992/fifa-22-complete-player-dataset)
+
 
