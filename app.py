@@ -113,6 +113,9 @@ def get_keeper_stats_vs_player(keepers: List[str], reference_player: str) -> dic
             goals_by_competition.reset_index(drop=True, inplace=True)
             print(f'goals_by_competition {goals_by_competition}')
             goals_stats_keeper_by_reference_player[keeper] = goals_by_competition
+        else:
+            print(f'Matched {keeper} as {fuzzy_matched_player} with confidence {matching_confidence}, creating empty dataframe')
+            goals_stats_keeper_by_reference_player[keeper] = pd.DataFrame(columns=['Comp', 'Opponent', 'goals'])
     return goals_stats_keeper_by_reference_player
 
 

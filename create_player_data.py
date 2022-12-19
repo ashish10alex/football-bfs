@@ -69,8 +69,7 @@ df_player_teams["player_name"] = player_names
 df_player_teams["teams"] = player_teams
 df_player_teams["player_pics"] = player_pics
 
-df_player_teams.to_pickle("data/player_teams_played_for_mmapping.pkl")
-df_player_teams.to_csv("data/player_teams_played_for_mapping.csv", index=False)
+df_player_teams.to_csv("data/player_teams_played_for_mapping.csv", index=False, encoding="utf-8")
 
 # idx = 11
 # df_small.iloc[idx]['player'], df_small.iloc[idx]['teams']
