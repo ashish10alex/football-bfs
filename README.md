@@ -44,6 +44,7 @@ TODOs -
     - Use Parquet file format instead of csv for faster loading
     - Do not over use fuzzy matching
 - [ ] Expand across other players than Messi. That is make the reference player dynamic 
+- [ ] Embed youtube video of latest goal vs goal keeper
 - [ ] Better error handling 
 - [ ] Testing sripts
 - [x] Get pictures of players from "data/FIFA22_official_data.csv"
