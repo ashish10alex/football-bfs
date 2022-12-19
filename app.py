@@ -15,7 +15,7 @@ api_key = os.environ.get("FOOTBALL_API_KEY")
 all_teams = list(teams_crest_dict.keys())
 
 app = Flask(__name__)
-
+messi_goals_csv = "data/messi_goals.csv"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -83,6 +83,7 @@ def kepper_stats_vs_reference_player():
         if len(keeper_stats_vs_player) != 0:
             competitions = keeper_stats_vs_player[goal_keeper]['Comp'].to_list()
             goals = keeper_stats_vs_player[goal_keeper]['goals'].to_list()
+            keeper_club = keeper_stats_vs_player[goal_keeper]['Opponent'].to_list()
         else:
             competitions, goals = [], []
 
@@ -92,15 +93,16 @@ def kepper_stats_vs_reference_player():
             keeper_stats_vs_player = keeper_stats_vs_player,
             competitions = competitions,
             goals = goals,
+            keeper_club = keeper_club,
         )
 
 def get_keeper_stats_vs_player(keepers: List[str], reference_player: str) -> dict:
-    df = pd.read_csv("data/messi_goals.csv")
+    df = pd.read_csv(messi_goals_csv)
     goals_stats_keeper_by_reference_player = {}
     for keeper in keepers:
         fuzzy_matched_player, matching_confidence = fuzzy_match_player(keeper)
         if matching_confidence > 75:
-            goals_by_competition = db.query(f"select Comp, count(*) as goals from df where Goalkeeper = '{fuzzy_matched_player}' group by Comp ").to_df()
+            goals_by_competition = db.query(f"select Comp, Opponent , count(*) as goals from df where Goalkeeper = '{fuzzy_matched_player}' group by Comp, Opponent ").to_df()
             goals_by_competition.reset_index(drop=True, inplace=True)
             print(f'goals_by_competition {goals_by_competition}')
             goals_stats_keeper_by_reference_player[keeper] = goals_by_competition
@@ -135,7 +137,7 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
 
 
 def fuzzy_match_player(player: str) -> tuple:
-    df = pd.read_csv("data/messi_goals.csv")
+    df = pd.read_csv(messi_goals_csv)
     players = df['Goalkeeper'].values
     match = process.extractOne(str(player), players)
     return match
@@ -204,7 +206,7 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     return crest_url_dict
 
 def compute_goals_against_messi(players: list) -> dict:
-    df = pd.read_csv("data/messi_goals.csv")
+    df = pd.read_csv(messi_goals_csv)
 
     goals_against_messi = {}
     for player in players:

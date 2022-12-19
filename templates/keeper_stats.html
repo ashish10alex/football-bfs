@@ -36,6 +36,7 @@
         <thead>
             <tr>
                 <th>Competition</th>
+                <th>Team</th>
                 <th>Goals</th>
             </tr>
         </thead>
@@ -43,6 +44,7 @@
                {% for competion in competitions %}
                       <tr>
                           <td>  {{competion}} </td>
+                          <td>  {{keeper_club[loop.index - 1]}} </td>
                           <td>  {{goals[loop.index - 1]}} </td>
                       </tr>
                {% endfor %}
