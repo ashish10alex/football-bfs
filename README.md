@@ -5,8 +5,7 @@
 Shows the shortest connection between Messi and a Goalkeeper
 
 
-<img width="700" alt="football_bfs_tree" src="https://user-images.githubusercontent.com/34306898/208269596-60a03a1c-e8d8-4271-acc6-de035da1d9c4.png">
-
+<img width="700" alt="football_bfs_tree" src="https://user-images.githubusercontent.com/34306898/208472128-bc3f5936-6a86-485f-aacc-8937f16a9496.png">
 
 
 This eventually plans to be a football version of - https://oracleofbacon.org/movielinks.php
