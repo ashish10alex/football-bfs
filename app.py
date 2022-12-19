@@ -37,7 +37,6 @@ def index():
         print(f"teams: {teams}")
         print(f"players: {players}")
 
-        # goals_against_messi = compute_goals_against_messi(players)
         keeper_stats_vs_player =  get_keeper_stats_vs_player(players[:-1], reference_player)
         print(f"keeper_stats_vs_player: {keeper_stats_vs_player}")
 
@@ -214,28 +213,6 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
             print(f"team: {fuzzy_matched_team} matched with {matching_confidence} confidence")
             crest_url_dict[team] = check_if_team_is_club_or_national_team_and_return_crest(fuzzy_matched_team, df)
     return crest_url_dict
-
-def compute_goals_against_messi(players: list) -> dict:
-    df = pd.read_csv(messi_goals_csv)
-
-    goals_against_messi = {}
-    for player in players:
-        if player != 'L. Messi':
-
-            fuzzy_matched_player, matching_confidence = fuzzy_match_player(player)
-
-            if matching_confidence > 75:
-                print(f"player: {fuzzy_matched_player} matched with {matching_confidence} confidence")
-                goals = db.query(f"select count(*) as goals from df where Goalkeeper = '{fuzzy_matched_player}' ").to_df().values[0][0]
-                goals_against_messi[player] = goals
-            else:
-                "Approximate player match not found"
-                goals_against_messi[player] = 0
-
-    return goals_against_messi
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5050)
