@@ -5,12 +5,17 @@
 
 {% block content %}
 <div class="center_results">
-<span style='font-size:50px;'> &#127952; &#127795;</span>
+
+<video width="320" height="240" autoplay playsinline loop muted >
+  <source src="static/video/messi_world_cup_kiss.mp4" type="video/mp4"  >
+  Your browser does not support the video tag.
+</video>
+
 <h2> Oracle of Messi </h2>
 <!--Make sure the form has the autocomplete function switched off:-->
 <form method="POST" autocomplete="off" action="/" >
   <div class="autocomplete" style="width:300px;">
-    <input id="PlayerOne" type="text" name="PlayerOne" placeholder="L. Messi" readonly>
+      <input id="PlayerOne" type="text" name="PlayerOne" placeholder="L. Messi" style="font-weight: 550" readonly>
   </div>
 
   <div class="autocomplete" style="width:300px;">
