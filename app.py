@@ -9,7 +9,6 @@ from fuzzywuzzy import process
 
 from bfs import bfs
 from teams_crest_dict import teams_crest_dict
-from player_names_to_id_mapping import player_names_to_id_mapping
 
 api_key = os.environ.get("FOOTBALL_API_KEY")
 
