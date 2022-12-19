@@ -36,7 +36,7 @@ Breadth first search code borrowed from - https://github.com/a8hay/kevin-bacon-b
 
 API dashboard - https://dashboard.api-football.com/
 
-TODOs -
+#### TODOs -
 
 - [ ] Make website faster - 
     - Donot load dataframe multiple times
@@ -50,7 +50,7 @@ TODOs -
 - [x] Try another API - https://www.api-football.com/news (maybe no need for API anymore)
 
 
-Known bugs -
+#### Known bugs -
 - Might require multiple refreshes to show connections for some players. 
 - Need to update dataset to have more correct info on what clubs / national teams a player played for
 
