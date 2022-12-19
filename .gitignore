@@ -1,0 +1,14 @@
+__pycache__
+bin/
+include/
+lib/
+.ipynb_checkpoints/
+pyvenv.cfg
+notebooks/new-api-players_image.ipynb
+notebooks/new-api_logos.ipynb
+Notes.md
+notebooks/
+.DS_Store
+player_names_to_id_mapping.py
+pyvenv.cfg
+__pycache__/
