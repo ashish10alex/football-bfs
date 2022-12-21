@@ -23,9 +23,24 @@ This project is my attempt at a football version of - [Oracle of bacon](https://
 
 Shows the shortest connection between Messi and a Goalkeeper
 
-Run -
+#### Development setup
+
+Tested on Python 3.10.8
+
+Create virtual environment 
 ```
+python3 -m venv messi
+source messi/bin/activate
+```
+
+Install dependencies
+```
+pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+Run web app
+```
 python app.py
 
 # For football tree go to - 
