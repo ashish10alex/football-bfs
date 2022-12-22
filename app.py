@@ -126,7 +126,6 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
     df = pd.read_csv("data/player_teams_played_for_mapping.csv")
     player_image_paths = {}
     for player in players:
-        breakpoint()
         player_pic_url = df[df['player_name'] == player]['player_pics'].values[0]
         player_id = df[df['player_name'] == player].index[0]
 
