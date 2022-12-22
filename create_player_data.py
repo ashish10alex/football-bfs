@@ -1,5 +1,4 @@
 import concurrent.futures
-
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -17,59 +16,40 @@ df = df[(df['Position']=='GK') | (df['ID'] == 158023)]
 df.reset_index(inplace=True)
 
 
-player_ids = list(df["ID"])
-
-player_urls = []
-for player_id in player_ids:
-    player_url = f"https://sofifa.com/player/{player_id}/live"
-    player_urls.append(player_url)
-df["player_urls"] = player_urls
-
+df["player_urls"] = [f"https://sofifa.com/player/{player_id}" for player_id in df["ID"]]
 
 def get_teams_player_played_for(player_url, idx):
     page_html = requests.get(player_url).content
-    page_html_soup = BeautifulSoup(page_html, "html.parser")
-    teams_table = page_html_soup.find_all(class_="text-ellipsis")
+    soup = BeautifulSoup(page_html, "html.parser")
+    table_rows = soup.find_all("tr")
+    player_teams = set([row.find('a').text for row in table_rows if row.find('img', {'class': 'team', 'data-type': 'team'})])
+    return idx, player_teams
 
-    # for all items in teams_table that has class team, get the td element
-    teams = []
-    for team in teams_table:
-        if team.find(class_="team"):
-            team_name = team.text
-            teams.append(team_name)
-    teams = set(teams)
-    return df["Name"][idx], df["ID"][idx], df["Photo"][idx], list(teams)
+# un comment for testing
+# get_teams_player_played_for(df['player_urls'][0], 0)
 
-# get_teams_player_played_for(player_urls[0], 0)
+df_player_teams = pd.DataFrame(columns=["idx",  "player_name", "player_pics", "teams"])
 
 # parallel computation using threads
 with concurrent.futures.ThreadPoolExecutor() as executor:
     results = []
-    for idx, url in tqdm(enumerate(player_urls[:])):
+    for idx, url in df['player_urls'][:].items():
         results.append(executor.submit(get_teams_player_played_for, url, idx))
-    final_results = []
+    idxs = []
+    player_teams = []
     for f in concurrent.futures.as_completed(results):
-        final_results.append(f.result())
+        idxs.append(f.result()[0])
+        player_teams.append(f.result()[1])
 
-df_player_teams = pd.DataFrame(columns=["teams"])
 
-player_ids = []
-player_names = []
-player_pics = []
-player_teams = []
-for data in final_results:
-    player_name, player_id, player_pic, teams = data
-    player_ids.append(player_id)
-    player_names.append(player_name)
-    player_pics.append(player_pic)
-    player_teams.append(teams)
 
-df_player_teams["player_id"] = player_ids
-df_player_teams["player_name"] = player_names
+df_player_teams["idx"] = idxs
 df_player_teams["teams"] = player_teams
-df_player_teams["player_pics"] = player_pics
 
-df_player_teams.to_csv("data/player_teams_played_for_mapping.csv", index=False, encoding="utf-8")
+df_player_teams.set_index("idx", inplace=True)
 
-# idx = 11
-# df_small.iloc[idx]['player'], df_small.iloc[idx]['teams']
+df_player_teams['player_pics'] = df.iloc[df_player_teams.index]['Photo']
+df_player_teams['player_name'] = df.iloc[df_player_teams.index]['Name']
+
+
+df_player_teams.to_csv("data/player_teams_played_for_mapping_test.csv", index=True, encoding="utf-8")
