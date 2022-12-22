@@ -3,7 +3,6 @@ from ast import literal_eval
 import pandas as pd
 import pdbr
 
-# df = pd.read_pickle('data/data_small.pkl') 
 df = pd.read_csv('data/player_teams_played_for_mapping.csv') 
 
 class Vertex:
