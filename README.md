@@ -58,15 +58,15 @@ API dashboard - https://dashboard.api-football.com/
 #### TODOs -
 
 - [ ] Make website faster - 
+    - Use Parquet file format instead of csv for faster loading [<b style='color:green'> done </b>]
     - Donot load dataframe multiple times
-    - Use Parquet file format instead of csv for faster loading
     - Do not over use fuzzy matching
 - [ ] Expand across other players than Messi. That is make the reference player dynamic 
 - [ ] Embed youtube video of latest goal vs goal keeper
 - [ ] Better error handling 
 - [ ] Testing sripts
+- [ ] Create an ETL pipeline to update data dynamically
 - [x] Get pictures of players from "data/FIFA22_official_data.csv"
-- [x] Try another API - https://www.api-football.com/news (maybe no need for API anymore)
 
 
 #### Known bugs -
