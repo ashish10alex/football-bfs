@@ -1,4 +1,5 @@
 Flask
+pyarrow
 tqdm
 gunicorn
 requests

@@ -10,7 +10,8 @@ from fuzzywuzzy import process
 from bfs import bfs
 
 app = Flask(__name__)
-messi_goals_csv = "data/messi_goals.csv"
+messi_goals = "data/messi_goals.parquet"
+fifa_22_data = "data/FIFA22_official_data.parquet"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -22,6 +23,10 @@ def index():
         req = request.form
         reference_player, player_two = req["PlayerOne"], req["PlayerTwo"]
         reference_player = 'L. Messi' #hardcode Messi
+
+        print(f'reference_player {reference_player}')
+        print(f'player_two {player_two}')
+
         connection_result_list = bfs(reference_player, player_two)
         connection_result_list = [item.strip(' ') for item in connection_result_list]
         print(f"connection_result_list  : {connection_result_list}")
@@ -98,7 +103,7 @@ def kepper_stats_vs_reference_player():
         )
 
 def get_keeper_stats_vs_player(keepers: List[str], reference_player: str) -> dict:
-    df = pd.read_csv(messi_goals_csv)
+    df = pd.read_parquet(messi_goals)
     goals_stats_keeper_by_reference_player = {}
     for keeper in keepers:
         fuzzy_matched_player, matching_confidence = fuzzy_match_player(keeper)
@@ -123,7 +128,7 @@ def download_and_save_player_image(image_url:str, player_id:int, img_path='stati
 
 
 def get_image_paths_from_player_names(players: List[str]) -> dict:
-    df = pd.read_csv("data/player_teams_played_for_mapping.csv")
+    df = pd.read_parquet("data/player_teams_played_for_mapping.parquet")
     player_image_paths = {}
     for player in players:
         player_pic_url = df[df['player_name'] == player]['player_pics'].values[0]
@@ -141,13 +146,13 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
 
 
 def fuzzy_match_player(player: str) -> tuple:
-    df = pd.read_csv(messi_goals_csv)
+    df = pd.read_parquet(messi_goals)
     players = df['Goalkeeper'].values
     match = process.extractOne(str(player), players)
     return match
 
 def fuzzy_match_team(team: str) -> tuple:
-    df = pd.read_csv("data/FIFA22_official_data.csv")
+    df = pd.read_parquet(fifa_22_data)
     teams = df['Club'].values
     match = process.extractOne(str(team), teams)
     return match
@@ -198,7 +203,7 @@ def check_if_team_is_club_or_national_team_and_return_crest(team: str, df:pd.Dat
 
 
 def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
-    df = pd.read_csv("data/FIFA22_official_data.csv")
+    df = pd.read_parquet(fifa_22_data)
     crest_url_dict = {}
     for team in teams:
         if team in df["Club"].values or team in df["Nationality"].values:

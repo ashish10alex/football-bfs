@@ -3,7 +3,8 @@ from ast import literal_eval
 import pandas as pd
 import pdbr
 
-df = pd.read_csv('data/player_teams_played_for_mapping.csv') 
+# df = pd.read_csv('data/player_teams_played_for_mapping.csv') 
+df = pd.read_parquet('data/player_teams_played_for_mapping.parquet')
 
 class Vertex:
 	def __init__(self, key):
