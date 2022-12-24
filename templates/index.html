@@ -75,6 +75,12 @@
 
       
 {% endfor %}
+
+<!-- Change the placeholder to be the latest selected player -->
+<script>
+    document.getElementById("PlayerTwo").placeholder =  "{{connection_result_list[0]}}";
+</script>
+
 </div>
 {% endif %}
 
