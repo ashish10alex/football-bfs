@@ -30,7 +30,6 @@
 {% if connection_result_list %}
 <div class="makeitseo">
 {% for item in connection_result_list  %}
-    <!-- <div class="center_results"> -->
    <div class="cell">
    <p>{{item}}</p>  
    {% if loop.index % 2 == 0%}
@@ -38,7 +37,7 @@
   {% else %}
         <img alt="Player photo" src={{player_image_paths[item]}}  >
 
-         <!-- Last player is Messi -->
+         <!-- Last player is reference player -->
        {% if not loop.last %}
             <table class="styled-table">
                 <thead>
@@ -58,6 +57,12 @@
                        {% endfor %}
                 </tbody>
                 </table>
+
+                <!-- Show video of keeper vs reference player only if reference player has goals against keeper -->
+                {% if video_id_dict[item] | length %}
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{video_id_dict[item]}}" frameborder="0" allow=" autoplay; encrypted-media;  picture-in-picture" allowfullscreen></iframe>
+                {% endif %}
+
        {% endif %}
 
    {% endif %}

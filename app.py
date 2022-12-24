@@ -6,6 +6,7 @@ from typing import List, Dict
 
 from flask import Flask, render_template, request
 from fuzzywuzzy import process
+from youtubesearchpython import VideosSearch
 
 from bfs import bfs
 
@@ -37,6 +38,7 @@ def index():
         print(f"teams: {teams}")
         print(f"players: {players}")
 
+
         keeper_stats_vs_player =  get_keeper_stats_vs_player(players[:-1], reference_player)
         print(f"keeper_stats_vs_player: {keeper_stats_vs_player}")
 
@@ -44,6 +46,9 @@ def index():
         for player in keeper_stats_vs_player:
            final_keeper_dict[player] = keeper_stats_vs_player[player].to_dict('list')
         print(f"final_keeper_dict: {final_keeper_dict}")
+
+        video_id_dict = get_video_ids_from_players(final_keeper_dict, reference_player)
+        print(f"video_id_dict: {video_id_dict}")
 
         player_image_paths = get_image_paths_from_player_names(players)
         print(f"image_paths_players: {player_image_paths}")
@@ -62,6 +67,7 @@ def index():
             teams_crest_dict=crest_url_dict,
             player_image_paths=player_image_paths,
             final_keeper_dict=final_keeper_dict,
+            video_id_dict = video_id_dict
         )
 
 
@@ -101,6 +107,14 @@ def kepper_stats_vs_reference_player():
             goals = goals,
             keeper_club = keeper_club,
         )
+
+def get_video_ids_from_players(final_keeper_dict: dict, reference_player:str) -> dict:
+    video_id_dict = {}
+    for keeper, stats in final_keeper_dict.items():
+        if len(stats['Comp'] ) > 0:
+            video_id_dict[keeper] = VideosSearch(query=f'{reference_player} vs {keeper} {stats["Comp"][0]} goal', limit=1, region='UK' ).result()['result'][0]['id']
+        else: video_id_dict[keeper] = ''
+    return video_id_dict
 
 def get_keeper_stats_vs_player(keepers: List[str], reference_player: str) -> dict:
     df = pd.read_parquet(messi_goals)
@@ -215,4 +229,4 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     return crest_url_dict
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

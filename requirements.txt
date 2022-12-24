@@ -1,4 +1,5 @@
 Flask
+youtube-search-python
 pyarrow
 tqdm
 gunicorn
