@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import duckdb as db
 from typing import List, Dict
+from termcolor import colored
 
 from flask import Flask, render_template, request
 from fuzzywuzzy import process
@@ -153,6 +154,7 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
         if os.path.exists(img_path):
             player_image_paths[player] = img_path
         else:
+            print(colored(f"Downloading image for {player}", 'red'))
             image_path = download_and_save_player_image(player_pic_url, player_id)
             player_image_paths[player] = image_path
 
@@ -195,9 +197,12 @@ def get_new_connection_results_list( connection_result_list: List[str], crest_ur
     return new_connection_result_list
 
 def download_and_save_player_national_team_flag(image_url:str, player_team:str, img_path='static/player_images/') -> str:
-    img_data = requests.get(image_url).content
     player_team = player_team.replace(' ', '_')
     img_path = img_path + str(player_team) + '.png'
+    if os.path.exists(img_path):
+        return img_path
+    print(colored(f"Downloading image for {player_team}", 'red'))
+    img_data = requests.get(image_url).content
     with open(img_path, 'wb') as handler:
         handler.write(img_data)
     return img_path
