@@ -230,4 +230,4 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     return crest_url_dict
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
