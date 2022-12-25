@@ -66,6 +66,7 @@ API dashboard - https://dashboard.api-football.com/
 - [ ] Better error handling 
 - [ ] Testing sripts
 - [ ] Create an ETL pipeline to update data dynamically
+- [ ] Move player vs detailed stats to another branch
 - [x] Get pictures of players from "data/FIFA22_official_data.csv"
 
 
