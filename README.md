@@ -62,7 +62,7 @@ API dashboard - https://dashboard.api-football.com/
     - Donot load dataframe multiple times
     - Do not over use fuzzy matching
 - [ ] Expand across other players than Messi. That is make the reference player dynamic 
-- [ ] Embed youtube video of latest goal vs goal keeper
+- [x] Embed youtube video of latest goal vs goal keeper
 - [ ] Better error handling 
 - [ ] Testing sripts
 - [ ] Create an ETL pipeline to update data dynamically
