@@ -112,7 +112,7 @@ def get_video_ids_from_players(final_keeper_dict: dict, reference_player:str) ->
     video_id_dict = {}
     for keeper, stats in final_keeper_dict.items():
         if len(stats['Comp'] ) > 0:
-            video_id_dict[keeper] = VideosSearch(query=f'{reference_player} vs {keeper} {stats["Comp"][0]} goal', limit=1, region='UK' ).result()['result'][0]['id']
+            video_id_dict[keeper] = VideosSearch(query=f'{reference_player} vs {keeper} {stats["Comp"][0]} {stats["Opponent"][0]} goal', limit=1, ).result()['result'][0]['id']
         else: video_id_dict[keeper] = ''
     return video_id_dict
 
