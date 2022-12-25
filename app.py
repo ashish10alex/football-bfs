@@ -159,32 +159,28 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
     return player_image_paths
 
 
-def fuzzy_match_player(player: str) -> tuple:
+def fuzzy_match_player(player: str) -> tuple[str, str]:
     df = pd.read_parquet(messi_goals)
     players = df['Goalkeeper'].values
-    match = process.extractOne(str(player), players)
-    return match
+    fuzzy_matched_player, matching_confidence = process.extractOne(str(player), players)
+    return fuzzy_matched_player, matching_confidence
 
-def fuzzy_match_team(team: str) -> tuple:
+def fuzzy_match_team(team: str) -> tuple[str, str]:
     df = pd.read_parquet(fifa_22_data)
     teams = df['Club'].values
-    match = process.extractOne(str(team), teams)
-    return match
+    fuzzy_matched_team, matching_confidence = process.extractOne(str(team), teams)
+    return fuzzy_matched_team, matching_confidence
 
 
-def get_team_names_from_connection_result_list( connection_result_list: list) -> list:
-    teams = []
-    for idx, item in enumerate(connection_result_list):
-        if idx % 2 != 0:
-            teams.append(item)
+def get_team_names_from_connection_result_list(connection_result_list: List[str]) -> List[str]:
+    # every odd index is a team name
+    teams = [connection_result_list[idx] for idx in range(len(connection_result_list)) if idx % 2 != 0 ]
     return teams
 
 
-def get_player_names_from_connection_result_list( connection_result_list: List[str]) -> List[str]:
-    players = []
-    for idx, item in enumerate(connection_result_list):
-        if idx % 2 == 0:
-            players.append(item)
+def get_player_names_from_connection_result_list(connection_result_list: List[str]) -> List[str]:
+    # every even index is a player name
+    players = [connection_result_list[idx] for idx in range(len(connection_result_list)) if idx % 2 == 0 ]
     return players
 
 
@@ -229,4 +225,4 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     return crest_url_dict
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
