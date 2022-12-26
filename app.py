@@ -57,14 +57,9 @@ def index():
         crest_url_dict = crest_url_dict_given_team_names(teams)
         print(f"crest_url_dict : {crest_url_dict }")
 
-        new_connection_resuls_list = get_new_connection_results_list(
-            connection_result_list, crest_url_dict
-        )
-
-        print(f"new_connection_resuls_list : {new_connection_resuls_list }")
         return render_template(
             "index.html",
-            connection_result_list=new_connection_resuls_list,
+            connection_result_list=connection_result_list,
             teams_crest_dict=crest_url_dict,
             player_image_paths=player_image_paths,
             final_keeper_dict=final_keeper_dict,
@@ -185,17 +180,6 @@ def get_player_names_from_connection_result_list(connection_result_list: List[st
     players = [connection_result_list[idx] for idx in range(len(connection_result_list)) if idx % 2 == 0 ]
     return players
 
-
-def get_new_connection_results_list( connection_result_list: List[str], crest_url_dict: Dict[str, str]) -> List[str]:
-    new_teams_keys = list(crest_url_dict.keys())[::-1]
-    new_connection_result_list = []
-    for idx, item in enumerate(connection_result_list):
-        if idx % 2 != 0:
-            new_connection_result_list.append(new_teams_keys.pop())
-        else:
-            new_connection_result_list.append(item)
-    return new_connection_result_list
-
 def download_and_save_player_national_team_flag(image_url:str, player_team:str, img_path='static/player_images/') -> str:
     player_team = player_team.replace(' ', '_')
     img_path = img_path + str(player_team) + '.png'
@@ -230,4 +214,4 @@ def crest_url_dict_given_team_names(teams: List[str]) -> Dict[str, str]:
     return crest_url_dict
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
