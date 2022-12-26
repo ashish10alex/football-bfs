@@ -43,12 +43,7 @@ def index():
         keeper_stats_vs_player =  get_keeper_stats_vs_player(players[:-1], reference_player)
         print(f"keeper_stats_vs_player: {keeper_stats_vs_player}")
 
-        final_keeper_dict = {}
-        for player in keeper_stats_vs_player:
-           final_keeper_dict[player] = keeper_stats_vs_player[player].to_dict('list')
-        print(f"final_keeper_dict: {final_keeper_dict}")
-
-        video_id_dict = get_video_ids_from_players(final_keeper_dict, reference_player)
+        video_id_dict = get_video_ids_from_players(keeper_stats_vs_player, reference_player)
         print(f"video_id_dict: {video_id_dict}")
 
         player_image_paths = get_image_paths_from_player_names(players)
@@ -62,7 +57,7 @@ def index():
             connection_result_list=connection_result_list,
             teams_crest_dict=crest_url_dict,
             player_image_paths=player_image_paths,
-            final_keeper_dict=final_keeper_dict,
+            keeper_stats_vs_player=keeper_stats_vs_player,
             video_id_dict = video_id_dict
         )
 
@@ -121,10 +116,10 @@ def get_keeper_stats_vs_player(keepers: List[str], reference_player: str) -> dic
             goals_by_competition = db.query(f"select Comp, Opponent , count(*) as goals from df where Goalkeeper = '{fuzzy_matched_player}' group by Comp, Opponent ").to_df()
             goals_by_competition.reset_index(drop=True, inplace=True)
             print(f'goals_by_competition {goals_by_competition}')
-            goals_stats_keeper_by_reference_player[keeper] = goals_by_competition
+            goals_stats_keeper_by_reference_player[keeper] = goals_by_competition.to_dict('list')
         else:
             print(f'Matched {keeper} as {fuzzy_matched_player} with confidence {matching_confidence}, creating empty dataframe')
-            goals_stats_keeper_by_reference_player[keeper] = pd.DataFrame(columns=['Comp', 'Opponent', 'goals'])
+            goals_stats_keeper_by_reference_player[keeper] = pd.DataFrame(columns=['Comp', 'Opponent', 'goals']).to_dict('list')
     return goals_stats_keeper_by_reference_player
 
 
@@ -156,13 +151,13 @@ def get_image_paths_from_player_names(players: List[str]) -> dict:
     return player_image_paths
 
 
-def fuzzy_match_player(player: str) -> tuple[str, str]:
+def fuzzy_match_player(player: str) -> tuple[str, int]:
     df = pd.read_parquet(messi_goals)
     players = df['Goalkeeper'].values
     fuzzy_matched_player, matching_confidence = process.extractOne(str(player), players)
     return fuzzy_matched_player, matching_confidence
 
-def fuzzy_match_team(team: str) -> tuple[str, str]:
+def fuzzy_match_team(team: str) -> tuple[str, int]:
     df = pd.read_parquet(fifa_22_data)
     teams = df['Club'].values
     fuzzy_matched_team, matching_confidence = process.extractOne(str(team), teams)

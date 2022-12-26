@@ -48,11 +48,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                       {% for competition in final_keeper_dict[item]['Comp'] %}
+                       {% for competition in keeper_stats_vs_player[item]['Comp'] %}
                               <tr>
                                   <td>  {{competition}} </td>
-                                  <td>     {{final_keeper_dict[item]['goals'][loop.index - 1]}} </td>
-                                  <td>     {{final_keeper_dict[item]['Opponent'][loop.index - 1]}} </td>
+                                  <td>     {{keeper_stats_vs_player[item]['goals'][loop.index - 1]}} </td>
+                                  <td>     {{keeper_stats_vs_player[item]['Opponent'][loop.index - 1]}} </td>
                               </tr>
                        {% endfor %}
                 </tbody>
